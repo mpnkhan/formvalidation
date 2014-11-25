@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Home Page</title>
+	<meta charset="utf-8">
+	<link href="lib/bootstrap.min.css" rel="stylesheet" />
+	<style>
+	
+	</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div id='msgCont' class="alert alert-error hide">
+		Some required information is missing or incomplete. Please correct your entries and try again.	
+    </div>
+
+	<form action="index.html" class="form-horizontal">
+		<div class="control-group">
+			<label for="firstName">First Name</label> 
+			<input type="text" id="firstName" name="firstName" aria-required="true">
+			<span  id='1err' class="help-inline hide">Please enter First Name</span>
+		</div>	
+
+		<div class="control-group">
+			<label for="lastname">Last Name</label>
+			<input type="text" name="lastname" id="lastname" aria-required="true"/>
+			<span id='2err' class="help-inline hide">Please enter Last Name</span>
+
+		</div>
+		<div class="control-group">	
+			<label for="street">Street Address</label>
+			<input type="text" name="street" id="street" aria-required="true"/>
+			<span id='3err' class="help-inline hide">Please enter Street Address</span>
+		</div>
+
+			<br><br>
+			<button  id='frmSbt' type="submit">Submit</button>
+	</form>	
+		<p><a href="index.html">Home </a></p>
+
+</div>
+
+<script src="lib/jquery.js"></script> 
+<script type="text/javascript">	
+
+			$('#frmSbt').on('click' , function(e) {
+				var errors = false 
+					, focusEl = null
+					, firstName = $('#firstName') 
+					, lastName = $('#lastname') 
+					, street = $('#street') ;
+
+				if(firstName.val().length == 0){
+					errors = true;
+					firstName.next().removeClass('hide')
+					firstName.parent().addClass('error')
+					firstName.attr({'aria-describedBy' : firstName.next().attr('id'),'aria-invalid' : 'true'})
+					focusEl = firstName
+				}else{
+					firstName.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
+				}
+
+				if(lastName.val().length == 0){
+					errors = true;
+					lastName.next().removeClass('hide')
+					lastName.parent().addClass('error')
+					lastName.attr({'aria-describedBy' : lastName.next().attr('id'),'aria-invalid' : 'true'})
+					if(focusEl == null) focusEl = lastName
+				}else{
+					lastName.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
+				}
+
+				if(street.val().length == 0){
+					errors = true;
+					street.next().removeClass('hide')
+					street.parent().addClass('error')
+					street.attr({'aria-describedBy' : street.next().attr('id'),'aria-invalid' : 'true'})
+					if(focusEl == null) focusEl = street
+				}else{
+					street.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
+				}
+
+				if(errors ===true){
+					$('.alert-error').removeClass('hide')
+					if(focusEl!=null) focusEl.attr('aria-describedBy','msgCont').focus();
+					return false;
+				}else return true;
+
+			})
+
+</script>
+
+</body>
+</html>

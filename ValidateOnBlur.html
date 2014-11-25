@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Home Page</title>
+	<meta charset="utf-8">
+	<link href="lib/bootstrap.min.css" rel="stylesheet" />
+	<style>
+
+	label { display: block;}
+	.form-group{ margin-bottom: 20px}
+
+	</style>
+</head>
+
+<body>
+
+<div class="container">
+	<form action="index.html">
+		<div class="form-group">
+			<label class="control-label" for="firstName">First Name</label> 
+			<input type="text" id="firstName" name="firstName" aria-required="true">
+			<span  id='1err' class="help-block hide">Please enter First Name</span>
+		</div>	
+
+		<div class="form-group">
+			<label class="control-label" for="lastname">Last Name</label>
+			<input type="text" name="lastname" id="lastname" aria-required="true"/>
+			<span id='2err' class="help-block hide">Please enter Last Name</span>
+
+		</div>
+		<div class="form-group">	
+			<label class="control-label" for="street">Street Address</label>
+			<input type="text" name="street" id="street" aria-required="true"/>
+			<span id='3err' class="help-block hide">Please enter Street Address</span>
+		</div>
+
+			<br><br>
+			<button  id='frmSbt' type="submit">Submit</button>
+	</form>	
+			<p><a href="index.html">Home </a></p>
+
+</div>
+
+<script src="lib/jquery.js"></script> 
+<script type="text/javascript">	
+
+	var errors = false 
+		, firstName = $('#firstName') 
+		, lastName = $('#lastname') 
+		, street = $('#street') ;
+
+		firstName.on('focusout' , function(e){
+					if(firstName.val().length == 0){
+						errors = true;
+						firstName.next().removeClass('hide').attr('role' ,'alert')
+						firstName.parent().addClass('has-error')
+						firstName.attr({'aria-describedBy' : firstName.next().attr('id'),'aria-invalid' : 'true'})
+					}else{
+						firstName.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('has-error')
+					}
+		})		
+
+		lastName.on('focusout' , function(e){		
+
+					if(lastName.val().length == 0){
+						errors = true;
+						lastName.next().removeClass('hide').attr('role' ,'alert')
+						lastName.parent().addClass('has-error')
+						lastName.attr({'aria-describedBy' : lastName.next().attr('id'),'aria-invalid' : 'true'})
+					}else{
+						lastName.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('has-error')
+					}
+		})	
+
+
+		street.on('focusout' , function(e){		
+					if(street.val().length == 0){
+						errors = true;
+						street.next().removeClass('hide').attr('role' ,'alert')
+						street.parent().addClass('has-error')
+						street.attr({'aria-describedBy' : street.next().attr('id'),'aria-invalid' : 'true'})
+					}else{
+						street.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('has-error')
+					}
+		})	
+
+		$('#frmSbt').on('click' , function(e) {
+			if(errors ===true) return false;
+			else return true;
+		})	
+
+</script>
+
+</body>
+</html>

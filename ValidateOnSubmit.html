@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Home Page</title>
+	<meta charset="utf-8">
+	<link href="lib/bootstrap.min.css" rel="stylesheet" />
+	<style>
+	.help .tooltip-arrow {
+		border-bottom-color : #D9D9D9;
+		text-shadow: 0 1px #FFFFFF;
+
+	}
+	.help .tooltip-inner {
+		background-color : #F4F8FB; 
+		color :  #444444 ;
+		border : 1px solid #CEE0EB;
+		box-shadow: 0 5px 5px rgba(0,5,5,5)
+	}
+	.tooltip.bottom .tooltip-arrow { border-bottom-color :  #D9D9D9;}
+
+	.has-error .tooltip-arrow {
+		border-bottom-color : #D9D9D9;
+		text-shadow: 0 1px #FFFFFF;
+
+	}
+	.has-error .tooltip-inner {
+		background-color : #F7EBEB; 
+		color :  #666666 ;
+		border : 1px solid #EEDDAC;
+		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5)
+	}
+	label { display: block;}
+	.form-group{ margin-bottom: 20px}
+	</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div id='msgCont' class="alert alert-danger hide">
+		Some required information is missing or incomplete. Please correct your entries and try again.	
+    </div>
+
+	<form action="index.html" class="help">
+		<div class="form-group">
+			<label for="firstName" class="control-label">First Name</label> 
+			<input type="text" id="firstName" name="firstName" aria-required="true" data-class="help" data-helptext="your first name" data-errortext='{"errEmpty": "Please enter a valid first name"}'/>
+		</div>	
+
+		<div class="form-group">
+			<label for="lastname" class="control-label">Last Name</label>
+			<input type="text" name="lastname" id="lastname" aria-required="true" data-class="help" data-helptext="your last name"  data-errortext='{"errEmpty": "Please enter a valid last name"}'/>
+		</div>
+		<div class="form-group">	
+			<label for="email" class="control-label">Email Address</label>
+			<input type="text" name="email" id="email" aria-required="true" data-class="help" data-helptext="your email address"  data-errortext='{"errEmpty": "Email Address is empty" , "errFormat" : "Enter email address in a  valid format"}'/>
+		</div>
+
+			<br><br>
+			<button  id='frmSbt' type="submit">Submit</button>
+	</form>	
+		<p><a href="index.html">Home </a></p>
+
+</div>
+
+<script src="lib/jquery.js"></script> 
+<script src="lib/bootstrap.min.js"></script>
+<script type="text/javascript">	
+
+	function addDescribedBy( elem, id ) {
+		var describedby = (elem.attr( "aria-describedby" ) || "").split( /\s+/ )
+        , index = $.inArray( id, describedby);
+      	if ( index == -1 ) {		
+			describedby.push(id);
+			elem.attr( "aria-describedby", $.trim( describedby.join( " " ) ) );
+		}
+	}
+
+	function removeDescribedBy(elem,id) {
+		var describedby = (elem.attr( "aria-describedby" ) || "").split( /\s+/ )
+			, index = $.inArray( id, describedby );
+		if ( index !== -1 ) {
+			describedby.splice( index, 1 );
+		}
+		 describedby = $.trim( describedby.join( " " ) );
+		if ( describedby ) {
+			elem.attr( "aria-describedby", describedby );
+		} else {
+			elem.removeAttr( "aria-describedby" );
+		}
+	}
+
+	var	firstName = $('#firstName') 
+		, lastName = $('#lastname') 
+		, email = $('#email') ;
+
+		firstName.tooltip({'title' : firstName.data('helptext') ,'placement' : 'bottom'})
+		lastName.tooltip({'title' : lastName.data('helptext') ,'placement' : 'bottom'})
+		email.tooltip({'title' : email.data('helptext') ,'placement' : 'bottom'})
+
+
+		$('#frmSbt').on('click' , function(e) {
+			var errors = false 
+				, focusEl = null ;
+
+			if(firstName.val().length == 0){
+				errors = true;
+				focusEl = firstName;
+				firstName.attr('aria-invalid' ,'true').parent().addClass('has-error')
+				firstName.attr('data-class','error').attr('data-original-title', firstName.data('errortext').errEmpty)
+			}else{
+				firstName.removeAttr('aria-invalid').parent().removeClass('has-error');
+				firstName.attr('data-class','help').attr('data-original-title', firstName.data('helptext'))
+			}
+
+			if(lastName.val().length == 0){
+				errors = true;
+				if(focusEl == null) focusEl = lastName;				
+				// Adding error to parent also will override help class
+				lastName.attr('aria-invalid' ,'true').parent().addClass('has-error')
+				lastName.attr('data-original-title', lastName.data('errortext').errEmpty)
+
+			}else{
+				lastName.removeAttr('aria-invalid').parent().removeClass('has-error')
+				lastName.attr('data-original-title', lastName.data('helptext'))
+			}
+
+			if(email.val().length == 0){
+				errors = true;
+				email.attr('aria-invalid' ,'true').parent().addClass('has-error')
+				if(focusEl == null) focusEl = email;
+				email.attr('data-original-title', email.data('errortext').errEmpty)
+			}else{
+
+				if(!email.val().match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+					errors = true;
+					if(focusEl == null) focusEl = email;
+					email.attr('aria-invalid' ,'true').parent().addClass('has-error')
+					email.attr('data-original-title', email.data('errortext').errFormat)
+				} else {
+					email.removeAttr('aria-invalid').parent().removeClass('has-error')
+					email.attr('data-original-title', email.data('helptext'))
+				}
+			}
+
+			if(errors === true){
+				$('.alert-danger').removeClass('hide');
+				if(focusEl!=null) {
+					addDescribedBy(focusEl,'msgCont');
+					focusEl.focus();
+				}
+				return false;
+			}else {
+				return true;
+			}	
+
+		})
+
+</script>
+
+</body>
+</html>
