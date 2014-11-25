@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<link href="lib/bootstrap.min.css" rel="stylesheet" />
 	<style>
+	h1{font-size: 16px;}
 	.help .tooltip-arrow {
 		border-bottom-color : #D9D9D9;
 		text-shadow: 0 1px #FFFFFF;
@@ -37,9 +38,10 @@
 <body>
 
 <div class="container">
-    <div id='msgCont' class="alert alert-danger hide">
-		Some required information is missing or incomplete. Please correct your entries and try again.	
+    <div id='msgCont' role="alert" class="alert  alert-danger hide" data-error="Some required information is missing or incomplete. Please correct your entries and try again." data-success="Your account is sucessfully created" >
+    	<h1 id="msgContHead"></h1>
     </div>
+
 
 	<form action="index.html" class="help">
 		<div class="form-group">
@@ -145,6 +147,7 @@
 
 			if(errors === true){
 				$('.alert-danger').removeClass('hide');
+				$('#msgContHead').html($('#msgCont').data('error'))
 				if(focusEl!=null) {
 					addDescribedBy(focusEl,'msgCont');
 					focusEl.focus();

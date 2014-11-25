@@ -8,7 +8,7 @@
 
 	label { display: block;}
 	.form-group{ margin-bottom: 20px}
-
+ 	h1{font-size: 16px;}
 	</style>
 </head>
 
@@ -16,6 +16,7 @@
 
 <div class="container">
     <div id='msgCont' class="alert  alert-danger hide" data-error="Some required information is missing or incomplete. Please correct your entries and try again." data-success="Your account is sucessfully created">
+    	<h1 id="msgContHead"></h1>
     </div>
 
 	<form action="ValidateServer.html">
@@ -108,14 +109,15 @@
 	
 	var msgCont = $('#msgCont');
 	if(errors ===true){
-
-		msgCont.html(msgCont.data('error')).addClass('alert-danger').removeClass('hide')
+		$('#msgContHead').html(msgCont.data('error'))
+		msgCont.addClass('alert-danger').removeClass('hide')
 		document.title = document.title + ' - Error';
 		if(focusEl!=null) {
 			focusEl.attr('aria-describedBy',focusEl.attr('aria-describedBy') + ' msgCont').focus();
 		}	
 	}else{
-		msgCont.html(msgCont.data('success')).removeClass('alert-danger').addClass('alert-success').removeClass('hide')
+		$('#msgContHead').html(msgCont.data('success'))
+		msgCont.removeClass('alert-danger').addClass('alert-success').removeClass('hide')
 	}
 }
 
