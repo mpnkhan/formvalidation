@@ -16,6 +16,13 @@
 		<h1> Some required information is missing or incomplete. Please correct your entries and try again.	</h1>
     </div>
 
+	<p>
+		aria-errormessage is added in <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-errormessage">Aria 1.1 </a> but has partial support in Jaws and don't have any support with VO and NVDA<br>
+
+		Ref : <a href="https://a11ysupport.io/tech/aria/aria-errormessage_attribute">https://a11ysupport.io/tech/aria/aria-errormessage_attribute</a>
+		
+	</p>    
+
 	<form action="index.html" class="form-horizontal">
 		<div class="control-group">
 			<label for="firstName">First Name</label> 
@@ -56,35 +63,35 @@
 					errors = true;
 					firstName.next().removeClass('hide')
 					firstName.parent().addClass('error')
-					firstName.attr({'aria-describedBy' : firstName.next().attr('id'),'aria-invalid' : 'true'})
+					firstName.attr({'aria-errormessage' : firstName.next().attr('id'),'aria-invalid' : 'true'})
 					focusEl = firstName
 				}else{
-					firstName.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
+					firstName.removeAttr("aria-errormessage").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
 				}
 
 				if(lastName.val().length == 0){
 					errors = true;
 					lastName.next().removeClass('hide')
 					lastName.parent().addClass('error')
-					lastName.attr({'aria-describedBy' : lastName.next().attr('id'),'aria-invalid' : 'true'})
+					lastName.attr({'aria-errormessage' : lastName.next().attr('id'),'aria-invalid' : 'true'})
 					if(focusEl == null) focusEl = lastName
 				}else{
-					lastName.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
+					lastName.removeAttr("aria-errormessage").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
 				}
 
 				if(street.val().length == 0){
 					errors = true;
 					street.next().removeClass('hide')
 					street.parent().addClass('error')
-					street.attr({'aria-describedBy' : street.next().attr('id'),'aria-invalid' : 'true'})
+					street.attr({'aria-errormessage' : street.next().attr('id'),'aria-invalid' : 'true'})
 					if(focusEl == null) focusEl = street
 				}else{
-					street.removeAttr("aria-describedBy").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
+					street.removeAttr("aria-errormessage").removeAttr('aria-invalid').next().addClass('hide').parent().removeClass('error')
 				}
 
 				if(errors ===true){
 					$('.alert-danger').removeClass('hide')
-					if(focusEl!=null) focusEl.attr('aria-describedBy','msgCont').focus();
+					if(focusEl!=null) focusEl.attr('aria-errormessage','msgCont').focus();
 					return false;
 				}else return true;
 
